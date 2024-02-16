@@ -95,56 +95,40 @@ func saveImage(file multipart.File, filePath string) error {
 func Login(c *gin.Context) {
 	// Getting Email/Pass from req body
 	var body struct {
-		Email 		string
-		Password 	string
+		Email    string
+		Password string
 	}
 
 	if c.Bind(&body) != nil {
-		c.IndentedJSON(
-			http.StatusBadRequest,
-			gin.H{"error":"Failed to read body."},
-		)
-		
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to read body"})
 		return
 	}
+
 	// Look up requested user
 	var user models.User
 	result := db.DB.First(&user, "email = ?", body.Email)
 	if result.RowsAffected == 0 {
-		c.IndentedJSON(
-			http.StatusBadRequest,
-			gin.H{"error":"Invalid Email or Password."},
-		)
-		
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
 		return
 	}
 
-	// Compare send in pass with saved user pass hash
+	// Compare the sent-in password with the saved user password hash
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(body.Password))
 	if err != nil {
-		c.IndentedJSON(
-			http.StatusBadRequest,
-			gin.H{"error":"Invalid Email or Password."},
-		)
-		
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
 		return
 	}
 
+	// Generate JWT token
 	tokenString, err := createJWT(user.ID)
 	if err != nil {
-		c.IndentedJSON(
-			http.StatusBadRequest,
-			gin.H{"error":"Login failed."},
-		)
-		
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Login failed"})
 		return
 	}
 
-	c.IndentedJSON(
-		http.StatusOK,
-		gin.H{"userID": user.ID, "token": tokenString},
-	)
+	c.JSON(http.StatusOK, gin.H{"userID": user.ID, "token": tokenString})
 }
+
 
 func createJWT(id uint) (string, error) {
 	claims := &jwt.MapClaims{
@@ -155,5 +139,4 @@ func createJWT(id uint) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	return token.SignedString([]byte(secret))
-
 }
