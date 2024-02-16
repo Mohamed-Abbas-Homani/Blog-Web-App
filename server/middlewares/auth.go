@@ -10,20 +10,7 @@ import (
 )
 
 func Auth(c *gin.Context) {
-	tokenString :=  c.GetHeader("Authorization")
-	var body struct {
-		id uint
-	}
-
-	if c.Bind(&body) != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to read body"})
-		return
-	}
-
-	if tokenString == "" {
-		c.AbortWithStatus(http.StatusUnauthorized)
-	}
-
+	tokenString := c.GetHeader("Authorization")
 	token, err := validateJWT(tokenString)
 	if err != nil {
 		c.AbortWithStatus(http.StatusUnauthorized)
@@ -33,10 +20,10 @@ func Auth(c *gin.Context) {
 		c.AbortWithStatus(http.StatusUnauthorized)
 	}
 
-	claims := token.Claims.(jwt.MapClaims)
-	if body.id != claims["userID"] {
-		c.AbortWithStatus(http.StatusUnauthorized)
-	}
+	// claims := token.Claims.(jwt.MapClaims)
+	// if body.id != uint(claims["userID"].(float64)) {
+	// 	c.AbortWithStatus(http.StatusUnauthorized)
+	// }
 
 	c.Next()
 }

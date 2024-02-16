@@ -18,57 +18,57 @@ import (
 
 // Handler for user signup with profile image
 func Signup(c *gin.Context) {
-    // Parse form data including the image
-	
-    err := c.Request.ParseMultipartForm(10 << 20) // 10 MB max file size
-    if err != nil {
-        c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "Failed to parse form"})
-        return
-    }
+	// Parse form data including the image
 
-    // Extract form values
-    username := c.Request.FormValue("username")
-    email := c.Request.FormValue("email")
-    password := c.Request.FormValue("password")
-    profileImage, imageHeader, err := c.Request.FormFile("profile_image")
-    if err != nil {
-        c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "Failed to get profile image"})
-        return
-    }
-    defer profileImage.Close()
+	err := c.Request.ParseMultipartForm(10 << 20) // 10 MB max file size
+	if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "Failed to parse form"})
+		return
+	}
 
-    // Create a unique filename for the profile image
-    filename := uuid.New().String() + filepath.Ext(imageHeader.Filename)
+	// Extract form values
+	username := c.Request.FormValue("username")
+	email := c.Request.FormValue("email")
+	password := c.Request.FormValue("password")
+	profileImage, imageHeader, err := c.Request.FormFile("profile_image")
+	if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "Failed to get profile image"})
+		return
+	}
+	defer profileImage.Close()
 
-    // Save the profile image to disk
-    err = saveImage(profileImage, "path/to/profile/images/"+filename)
-    if err != nil {
-        c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "Failed to save profile image"})
-        return
-    }
+	// Create a unique filename for the profile image
+	filename := uuid.New().String() + filepath.Ext(imageHeader.Filename)
 
-    // Hash the password before saving it
-    hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-    if err != nil {
-        c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
-        return
-    }
+	// Save the profile image to disk
+	err = saveImage(profileImage, "/home/mash/Projects/BlogWebApp/server/images/"+filename)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "Failed to save profile image"})
+		return
+	}
 
-    // Create the user record
-    newUser := models.User{
-        Username:        username,
-        Email:           email,
-        Password:        string(hashedPassword),
-        ProfileImageURL: filename,
-    }
+	// Hash the password before saving it
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
+		return
+	}
 
-    // Save the user record to the database
-    if err := db.DB.Create(&newUser).Error; err != nil {
-        c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
-        return
-    }
+	// Create the user record
+	newUser := models.User{
+		Username:        username,
+		Email:           email,
+		Password:        string(hashedPassword),
+		ProfileImageURL: filename,
+	}
 
-    c.IndentedJSON(
+	// Save the user record to the database
+	if err := db.DB.Create(&newUser).Error; err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
+
+	c.IndentedJSON(
 		http.StatusOK,
 		gin.H{"message": "User signed up successfully"},
 	)
@@ -76,20 +76,20 @@ func Signup(c *gin.Context) {
 
 // Function to save uploaded image to disk
 func saveImage(file multipart.File, filePath string) error {
-    // Create a new file
-    f, err := os.Create(filePath)
-    if err != nil {
-        return err
-    }
-    defer f.Close()
+	// Create a new file
+	f, err := os.Create(filePath)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
 
-    // Copy the file content to the new file
-    _, err = io.Copy(f, file)
-    if err != nil {
-        return err
-    }
+	// Copy the file content to the new file
+	_, err = io.Copy(f, file)
+	if err != nil {
+		return err
+	}
 
-    return nil
+	return nil
 }
 
 func Login(c *gin.Context) {
@@ -129,11 +129,11 @@ func Login(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"userID": user.ID, "token": tokenString})
 }
 
-
 func createJWT(id uint) (string, error) {
 	claims := &jwt.MapClaims{
-		"ExpiresAt":     jwt.NewNumericDate(time.Now().Add(time.Hour * 24 * 30)),
-		"userID": id,
+		// "ExpiresAt":     jwt.NewNumericDate(time.Now().Add(time.Hour * 24 * 30)),
+		"ExpiresAt": jwt.NewNumericDate(time.Unix(1516239022, 0)),
+		"userID":    id,
 	}
 	secret := os.Getenv("JWT_SECRET")
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -142,20 +142,20 @@ func createJWT(id uint) (string, error) {
 }
 
 func GetUserByID(c *gin.Context) {
-    userID := c.Param("id")
+	userID := c.Param("id")
 
-    var user models.User
-    result := db.DB.First(&user, userID)
-    if result.RowsAffected == 0 {
-        //Bad Response
+	var user models.User
+	result := db.DB.First(&user, userID)
+	if result.RowsAffected == 0 {
+		//Bad Response
 		c.IndentedJSON(
 			http.StatusNotFound,
 			gin.H{"message": "User not found"},
 		)
 		return
-    }
+	}
 
-    //Response
+	//Response
 	c.IndentedJSON(
 		http.StatusOK,
 		gin.H{"user": user},
@@ -163,19 +163,19 @@ func GetUserByID(c *gin.Context) {
 }
 
 func DeleteUserByID(c *gin.Context) {
-    userID := c.Param("id")
-    var user models.User
-    result := db.DB.Delete(&user, userID)
-    if result.RowsAffected == 0 {
-        //Bad Response
+	userID := c.Param("id")
+	var user models.User
+	result := db.DB.Delete(&user, userID)
+	if result.RowsAffected == 0 {
+		//Bad Response
 		c.IndentedJSON(
 			http.StatusNotFound,
 			gin.H{"message": "User not found"},
 		)
 		return
-    }
+	}
 
-    //Response
+	//Response
 	c.IndentedJSON(
 		http.StatusOK,
 		gin.H{"user": user},

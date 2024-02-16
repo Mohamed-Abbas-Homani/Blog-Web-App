@@ -125,7 +125,7 @@ func DeletePost(c *gin.Context) {
 		)
 		return
 	}
-	
+
 	//Response
 	c.IndentedJSON(
 		http.StatusOK,
