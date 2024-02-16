@@ -140,3 +140,44 @@ func createJWT(id uint) (string, error) {
 
 	return token.SignedString([]byte(secret))
 }
+
+func GetUserByID(c *gin.Context) {
+    userID := c.Param("id")
+
+    var user models.User
+    result := db.DB.First(&user, userID)
+    if result.RowsAffected == 0 {
+        //Bad Response
+		c.IndentedJSON(
+			http.StatusNotFound,
+			gin.H{"message": "User not found"},
+		)
+		return
+    }
+
+    //Response
+	c.IndentedJSON(
+		http.StatusOK,
+		gin.H{"user": user},
+	)
+}
+
+func DeleteUserByID(c *gin.Context) {
+    userID := c.Param("id")
+    var user models.User
+    result := db.DB.Delete(&user, userID)
+    if result.RowsAffected == 0 {
+        //Bad Response
+		c.IndentedJSON(
+			http.StatusNotFound,
+			gin.H{"message": "User not found"},
+		)
+		return
+    }
+
+    //Response
+	c.IndentedJSON(
+		http.StatusOK,
+		gin.H{"user": user},
+	)
+}
