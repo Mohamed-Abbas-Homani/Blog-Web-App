@@ -3,7 +3,7 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/Mohamed-Abbas-Homani/gogingormapi/initializers"
+	db "github.com/Mohamed-Abbas-Homani/gogingormapi/initializers"
 	"github.com/Mohamed-Abbas-Homani/gogingormapi/models"
 	"github.com/gin-gonic/gin"
 )
@@ -18,7 +18,7 @@ func CreatePost(c *gin.Context) {
 
 	//Creating
 	post := &models.Post{Title: body.Title, Body: body.Body}
-	result := initializers.DB.Create(&post)
+	result := db.DB.Create(&post)
 	if result.Error != nil {
 		//Bad Response
 		c.IndentedJSON(
@@ -38,7 +38,7 @@ func CreatePost(c *gin.Context) {
 func GetPosts(c *gin.Context) {
 	//Getting Posts
 	var posts []models.Post
-	result := initializers.DB.Find(&posts)
+	result := db.DB.Find(&posts)
 	if result.Error != nil {
 		//Bad Response
 		c.IndentedJSON(
@@ -60,7 +60,7 @@ func GetPostByID(c *gin.Context) {
 	id := c.Param("id")
 	//Get Post from DB
 	var post models.Post
-	result := initializers.DB.Find(&post, id)
+	result := db.DB.Find(&post, id)
 	if result.RowsAffected == 0 {
 		//Bad Response
 		c.IndentedJSON(
@@ -88,7 +88,7 @@ func UpdatePost(c *gin.Context) {
 	c.Bind(&body)
 	//Getting Post from Db
 	var post models.Post
-	result := initializers.DB.Find(&post, id)
+	result := db.DB.Find(&post, id)
 	if result.RowsAffected == 0 {
 		//Bad Response
 		c.IndentedJSON(
@@ -99,7 +99,7 @@ func UpdatePost(c *gin.Context) {
 	}
 
 	//Update the post
-	initializers.DB.Model(&post).Updates(models.Post{
+	db.DB.Model(&post).Updates(models.Post{
 		Title: body.Title,
 		Body:  body.Body,
 	})
@@ -116,7 +116,7 @@ func DeletePost(c *gin.Context) {
 	id := c.Param("id")
 	//Deleting Post
 	var post models.Post
-	result := initializers.DB.Delete(&post, id)
+	result := db.DB.Delete(&post, id)
 	if result.RowsAffected == 0 {
 		//Bad Response
 		c.IndentedJSON(
