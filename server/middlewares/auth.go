@@ -19,7 +19,6 @@ func Auth(c *gin.Context) {
 	if !token.Valid {
 		c.AbortWithStatus(http.StatusUnauthorized)
 	}
-
 	// claims := token.Claims.(jwt.MapClaims)
 	// if body.id != uint(claims["userID"].(float64)) {
 	// 	c.AbortWithStatus(http.StatusUnauthorized)

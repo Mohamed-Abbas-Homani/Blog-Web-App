@@ -42,7 +42,7 @@ func Signup(c *gin.Context) {
 	filename := uuid.New().String() + filepath.Ext(imageHeader.Filename)
 
 	// Save the profile image to disk
-	err = saveImage(profileImage, "/home/mash/Projects/BlogWebApp/server/images/"+filename)
+	err = saveImage(profileImage, "/home/mash/Projects/BlogWebApp/server/images/profiles/"+filename)
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "Failed to save profile image"})
 		return
@@ -113,12 +113,17 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	// Compare the sent-in password with the saved user password hash
-    if !ComparePasswords([]byte(user.Password), []byte(body.Password)) {
-        c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
+	// // Compare the sent-in password with the saved user password hash
+    // if !ComparePasswords([]byte(user.Password), []byte(body.Password)) {
+    //     c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
+    //     return
+    // }
+
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(body.Password))
+    if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
         return
     }
-
 	// Generate JWT token
 	tokenString, err := createJWT(user.ID)
 	if err != nil {
