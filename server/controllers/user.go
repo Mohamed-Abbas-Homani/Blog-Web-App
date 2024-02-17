@@ -131,8 +131,7 @@ func Login(c *gin.Context) {
 
 func createJWT(id uint) (string, error) {
 	claims := &jwt.MapClaims{
-		// "ExpiresAt":     jwt.NewNumericDate(time.Now().Add(time.Hour * 24 * 30)),
-		"ExpiresAt": jwt.NewNumericDate(time.Unix(1516239022, 0)),
+		"ExpiresAt":     jwt.NewNumericDate(time.Now().Add(time.Hour * 24 * 30)),
 		"userID":    id,
 	}
 	secret := os.Getenv("JWT_SECRET")
