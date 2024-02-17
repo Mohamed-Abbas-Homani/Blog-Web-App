@@ -1,10 +1,9 @@
-import './App.css'
 
 function App() {
 
   return (
+
     <>
-      PEace i am mash
 
     </>
   )
