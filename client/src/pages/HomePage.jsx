@@ -1,8 +1,9 @@
 import React from 'react'
-
+import {useSetLogout } from '../services/store'
 const HomePage = () => {
+    const logout = useSetLogout()
   return (
-    <div>HomePage</div>
+    <div>HomePage  <button onClick={() => logout()}>logout!</button></div>
   )
 }
 

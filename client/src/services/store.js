@@ -25,6 +25,6 @@ export const useSetMode = () => useStore(state => state.setMode);
 export const useUser = () => useStore(state => state.user);
 export const useToken = () => useStore(state => state.token);
 export const useSetLogin = () => useStore(state => state.setLogin);
-export const useSetLogout = () => useStore(state => state.Logout);
+export const useSetLogout = () => useStore(state => state.setLogout);
 export const usePosts = () => useStore(state => state.posts);
 export const useSetPosts = () => useStore(state => state.setPosts);
