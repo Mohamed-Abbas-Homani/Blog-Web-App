@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"crypto/subtle"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -113,11 +114,10 @@ func Login(c *gin.Context) {
 	}
 
 	// Compare the sent-in password with the saved user password hash
-	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(body.Password))
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
-		return
-	}
+    if !ComparePasswords([]byte(user.Password), []byte(body.Password)) {
+        c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
+        return
+    }
 
 	// Generate JWT token
 	tokenString, err := createJWT(user.ID)
@@ -139,6 +139,19 @@ func createJWT(id uint) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	return token.SignedString([]byte(secret))
+}
+
+func ComparePasswords(hashedPassword, password []byte) bool {
+    // Use bcrypt.CompareHashAndPassword to perform secure comparison
+    err := bcrypt.CompareHashAndPassword(hashedPassword, password)
+    if err != nil {
+        // If the error is due to mismatched passwords, return false
+        // Otherwise, treat it as an internal error and return false to avoid leaking information
+        return false
+    }
+
+    // Perform constant-time comparison using crypto/subtle
+    return subtle.ConstantTimeCompare(hashedPassword, password) == 1
 }
 
 func GetUserByID(c *gin.Context) {
