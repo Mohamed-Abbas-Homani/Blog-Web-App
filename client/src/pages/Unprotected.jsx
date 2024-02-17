@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 const Unprotected = ({ children }) => {
   const auth = useToken();
   const navigate = useNavigate();
-  console.log(auth);
   useEffect(() => {
     if (auth) navigate(-1);
   }, [auth]);

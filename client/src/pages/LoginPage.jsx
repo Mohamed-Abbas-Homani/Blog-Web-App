@@ -1,15 +1,16 @@
-import React from 'react'
-import { useSetLogin, useSetLogout } from '../services/store'
+import React from "react";
+import { useSetLogin } from "../services/store";
+import Login from "../Components/app/Login";
+import { Box } from "@mui/material";
 
 const LoginPage = () => {
-  const login = useSetLogin()
+  const login = useSetLogin();
 
   return (
-    <>
-    <button onClick={() => login("user","token")}>login!</button>
-    
-    </>
-  )
-}
+    <Box width="310px" height="400px">
+      <Login />
+    </Box>
+  );
+};
 
-export default LoginPage
+export default LoginPage;

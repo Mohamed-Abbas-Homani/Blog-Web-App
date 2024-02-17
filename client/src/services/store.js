@@ -8,7 +8,7 @@ export const useStore = create(
       user: null,
       token: null,
       posts:[],
-      setMode: () => set({ mode: get().mod == "light" ? "dark" : "light" }),
+      setMode: () => set({ mode: get().mode == "light" ? "dark" : "light" }),
       setLogin: (user, token) => set({user, token}),
       setLogout: () => set({user:null, token:null}),
       setPosts: (posts) => set({posts}),
