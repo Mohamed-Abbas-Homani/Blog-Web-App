@@ -38,14 +38,13 @@ const Login = () => {
         handleBlur,
         handleChange,
         handleSubmit,
-        setFieldValue,
         resetForm,
       }) => (
         <form onSubmit={handleSubmit}>
           <Typography
             fontWeight="700"
             variant="h3"
-            sx={{ mb: "1.5rem", color: palette.primary.dark }}
+            sx={{ mb: "1.5rem", color: palette.primary.main }}
             textAlign="center"
           >
             Login
