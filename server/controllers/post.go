@@ -61,9 +61,11 @@ func CreatePost(c *gin.Context) {
 	}
 
 	//Response
+	var posts []models.Post
+	db.DB.Find(&posts)
 	c.IndentedJSON(
 		http.StatusCreated,
-		gin.H{"post": post},
+		gin.H{"posts": posts},
 	)
 }
 

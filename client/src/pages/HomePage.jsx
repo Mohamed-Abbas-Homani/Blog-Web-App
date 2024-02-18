@@ -3,24 +3,40 @@ import Navbar from "../Components/app/Navbar";
 import { Box } from "@mui/material";
 import UserWidget from "../Components/app/UserWidget";
 import FlexBetween from "../Components/ui/Fb";
+import CreatePost from "../Components/app/CreatePost";
+import Posts from "../Components/app/Posts";
 const HomePage = () => {
-
   return (
     <Box width="100%" height="100%">
-      <Navbar />
-      <Box width="100%" display="flex" >
-        <FlexBetween gap="3rem" width="100%">
-          <Box flex={1} display="flex" justifyContent="center">
+      <FlexBetween flexDirection="column">
+        <Box width="100%">
+          <Navbar />
+        </Box>
+
+        <Box
+          flexDirection="row"
+          display="flex"
+          width="100%"
+          justifyContent="space-between"
+          gap="3rem"
+        >
+          <Box display="flex" justifyContent="center" width="20%" height="20%">
+            <FlexBetween flexDirection="column" width="100%">
+              <UserWidget />
+              <UserWidget />
+            </FlexBetween>
+          </Box>
+          <Box display="flex" justifyContent="center" width="55%" height="100%">
+            <FlexBetween flexDirection="column" width="100%">
+              <CreatePost />
+              <Posts />
+            </FlexBetween>
+          </Box>
+          <Box display="flex" justifyContent="center" width="25%" height="50%">
             <UserWidget />
           </Box>
-          <Box flex={3}  display="flex" justifyContent="center">
-            <UserWidget />
-          </Box>
-          <Box flex={1.5}  display="flex" justifyContent="center">
-            <UserWidget />
-          </Box>
-        </FlexBetween>        
-      </Box>
+        </Box>
+      </FlexBetween>
     </Box>
   );
 };
