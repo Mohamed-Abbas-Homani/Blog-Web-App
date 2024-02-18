@@ -16,7 +16,7 @@ const HomePage = () => {
           <Box flex={3}  display="flex" justifyContent="center">
             <UserWidget />
           </Box>
-          <Box flex={1}  display="flex" justifyContent="center">
+          <Box flex={1.5}  display="flex" justifyContent="center">
             <UserWidget />
           </Box>
         </FlexBetween>        

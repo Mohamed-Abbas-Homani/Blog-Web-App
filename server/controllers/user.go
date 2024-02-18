@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"crypto/subtle"
+	// "fmt"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -33,7 +34,7 @@ func Signup(c *gin.Context) {
 	password := c.Request.FormValue("password")
 	profileImage, imageHeader, err := c.Request.FormFile("profile_image")
 	if err != nil {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "Failed to get profile image"})
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
 	defer profileImage.Close()

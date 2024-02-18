@@ -1,7 +1,7 @@
 import React from "react";
 import useUserInfo from "../../hooks/useUserInfo";
 import UserImage from "../ui/UserImage";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import FlexBetween from "../ui/Fb";
 import Widget from "../ui/Widget";
 import { EditOutlined } from "@mui/icons-material";

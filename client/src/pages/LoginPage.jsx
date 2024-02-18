@@ -5,8 +5,6 @@ import Navbar from "../Components/app/Navbar"
 import { Box } from "@mui/material";
 
 const LoginPage = () => {
-  const login = useSetLogin();
-
   return (
     <Box width="100%" height="100%" display="flex" justifyContent="space-between" alignItems="center" flexDirection="column">
       <Box width="100%">
