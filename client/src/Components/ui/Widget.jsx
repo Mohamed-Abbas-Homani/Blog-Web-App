@@ -7,5 +7,4 @@ const Widget = styled(Box)(({ theme }) => ({
   borderRadius: "0.75rem",
 }));
 
-
 export default Widget;

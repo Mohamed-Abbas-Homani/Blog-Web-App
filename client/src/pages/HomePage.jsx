@@ -26,8 +26,8 @@ const HomePage = () => {
               <UserWidget />
             </FlexBetween>
           </Box>
-          <Box display="flex" justifyContent="center" width="55%" height="100%">
-            <FlexBetween flexDirection="column" width="100%">
+          <Box display="flex" justifyContent="center" width="55%" height="100%" alignItems="center">
+            <FlexBetween flexDirection="column" width="100%" >
               <CreatePost />
               <Posts />
             </FlexBetween>

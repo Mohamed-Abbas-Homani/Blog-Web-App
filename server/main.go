@@ -20,6 +20,7 @@ func main() {
 	r.POST("/signup", controllers.Signup)
 	r.POST("/login", controllers.Login)
 	
+	r.PUT("/users/:id", middlewares.Auth, controllers.UpdateAccount)
 	r.GET("/users/:id", middlewares.Auth, controllers.GetUserByID)
 	r.DELETE("/users/:id", middlewares.Auth, controllers.DeleteUserByID)
 	r.POST("/posts", middlewares.Auth, controllers.CreatePost)

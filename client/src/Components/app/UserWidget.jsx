@@ -12,6 +12,7 @@ const UserWidget = () => {
   const navigate = useNavigate();
   return (
     <Widget width="89%" m="2rem 1rem">
+      <Typography variant="h3" mb="0.3rem">Profile</Typography>
       <FlexBetween>
         <Box
           justifyContent="start"

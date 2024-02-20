@@ -21,7 +21,6 @@ import (
 // Handler for user signup with profile image
 func Signup(c *gin.Context) {
 	// Parse form data including the image
-
 	err := c.Request.ParseMultipartForm(10 << 20) // 10 MB max file size
 	if err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "Failed to parse form"})
@@ -73,6 +72,54 @@ func Signup(c *gin.Context) {
 	c.IndentedJSON(
 		http.StatusOK,
 		gin.H{"message": "User signed up successfully"},
+	)
+}
+
+func UpdateAccount(c *gin.Context) {
+	// Parse form data including the image
+	err := c.Request.ParseMultipartForm(10 << 20) // 10 MB max file size
+	if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "Failed to parse form"})
+		return
+	}
+
+	// Extract form values
+	id := c.Param("id")
+	username := c.Request.FormValue("username")
+	profileImage, imageHeader, err := c.Request.FormFile("profile_image")
+	if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+	defer profileImage.Close()
+
+	// Create a unique filename for the profile image
+	filename := uuid.New().String() + filepath.Ext(imageHeader.Filename)
+
+	// Save the profile image to disk
+	err = saveImage(profileImage, "/home/mash/Projects/BlogWebApp/server/images/profiles/"+filename)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "Failed to save profile image"})
+		return
+	}
+
+	var user models.User
+	if db.DB.First(&user, id).Error != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "user not found"})
+		return
+	}
+
+	user.Username = username
+	user.ProfileImageURL = filename
+
+	if db.DB.Save(&user).Error != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "user not found"})
+		return
+	}
+
+	c.IndentedJSON(
+		http.StatusOK,
+		gin.H{"message": "User profile updated!"},
 	)
 }
 

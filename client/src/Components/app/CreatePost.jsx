@@ -18,7 +18,7 @@ import useCreatePost from "../../hooks/useCreatePost";
 const CreatePost = () => {
   const [post, setPost] = useState({ title: "", body: "", picture: null });
   const { palette } = useTheme();
-  const createPost = useCreatePost(post, setPost)
+  const createPost = useCreatePost(post, setPost);
   return (
     <Widget width="89%" m="2rem 1rem" height="100%">
       <Typography variant="h3">Create Post</Typography>
@@ -100,19 +100,19 @@ const CreatePost = () => {
           </Box>
         )}
         {post.title && post.body && post.picture && (
-                  <Button
-                  disabled={!post}
-                  onClick={() => createPost()}    
-                  sx={{
-                    color: palette.background.alt,
-                    backgroundColor: palette.primary.main,
-                    borderRadius: "3rem",
-                    ml:"90%",
-                    p:"0.5rem 2rem"
-                  }}
-                >
-                  POST
-                </Button>
+          <Button
+            disabled={!post}
+            onClick={() => createPost()}
+            sx={{
+              color: palette.background.alt,
+              backgroundColor: palette.primary.main,
+              borderRadius: "3rem",
+              ml: "90%",
+              p: "0.5rem 2rem",
+            }}
+          >
+            POST
+          </Button>
         )}
       </FlexBetween>
     </Widget>

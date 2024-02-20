@@ -19,7 +19,7 @@ const initialValuesLogin = {
 const Login = () => {
   const { palette } = useTheme();
   const navigate = useNavigate();
-  const login = useLogin()
+  const login = useLogin();
 
   const handleFormSubmit = async (values, onSubmitProps) => {
     login(values, onSubmitProps);

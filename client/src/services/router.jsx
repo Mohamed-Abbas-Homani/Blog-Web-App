@@ -19,15 +19,27 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Unprotected><LoginPage /></Unprotected>,
+    element: (
+      <Unprotected>
+        <LoginPage />
+      </Unprotected>
+    ),
   },
   {
     path: "/signup",
-    element: <Unprotected><SignUpPage /></Unprotected>,
+    element: (
+      <Unprotected>
+        <SignUpPage />
+      </Unprotected>
+    ),
   },
   {
-    path: "/profiles/:profileId",
-    element: <ProfilePage />,
+    path: "/profiles/:profileID",
+    element: (
+      <Protected>
+        <ProfilePage />
+      </Protected>
+    ),
   },
 ]);
 

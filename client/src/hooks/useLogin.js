@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useSetLogin } from "../services/store";
 
 const useLogin = () => {
-  const setLogin = useSetLogin()
-  const navigate = useNavigate()
+  const setLogin = useSetLogin();
+  const navigate = useNavigate();
   return async (values, onSubmitProps) => {
     const loggedInResponse = await fetch("http://localhost:3001/login", {
       method: "POST",
@@ -14,7 +14,7 @@ const useLogin = () => {
     onSubmitProps.resetForm();
     if (loggedIn) {
       setLogin(loggedIn.userID, loggedIn.token);
-      navigate("/")
+      navigate("/");
     }
   };
 };

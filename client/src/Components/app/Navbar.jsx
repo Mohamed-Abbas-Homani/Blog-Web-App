@@ -21,7 +21,7 @@ const Navbar = () => {
           fontWeight="1000"
           fontSize="clamp(1rem, 2rem, 2.25rem)"
           color="primary"
-          onClick={() => navigate(isAuth? "/" : "/login")}
+          onClick={() => navigate(isAuth ? "/" : "/login")}
           sx={{
             "&:hover": {
               color: theme.palette.primary.light,
@@ -41,9 +41,11 @@ const Navbar = () => {
               />
             )}
           </IconButton>
-          {isAuth && <Button variant="contained" onClick={() => logout()}>
-            logout
-          </Button>}
+          {isAuth && (
+            <Button variant="contained" onClick={() => logout()}>
+              logout
+            </Button>
+          )}
         </FlexBetween>
       </FlexBetween>
     </nav>

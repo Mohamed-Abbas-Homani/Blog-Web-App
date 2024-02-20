@@ -4,8 +4,7 @@ import AuthorizedPage from "./AuthorizedPage";
 
 const Unprotected = ({ children }) => {
   const auth = useToken();
-  if(!auth)
-  return children
-  else return <AuthorizedPage />
+  if (!auth) return children;
+  else return <AuthorizedPage />;
 };
 export default Unprotected;

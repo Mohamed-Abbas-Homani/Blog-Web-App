@@ -4,9 +4,7 @@ import NotAuthorizedPage from "./NotAuthorizedPage";
 
 const Protected = ({ children }) => {
   const auth = useToken();
-  if(auth)
-  return children
-  else
-  return <NotAuthorizedPage />
+  if (auth) return children;
+  else return <NotAuthorizedPage />;
 };
 export default Protected;

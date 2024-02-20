@@ -1,10 +1,9 @@
 import { useSetPosts, useToken, useUser } from "../services/store";
 
-
 const useCreatePost = (post, setPost) => {
-  const userID = useUser()
-  const token = useToken()
-  const setPosts = useSetPosts()
+  const userID = useUser();
+  const token = useToken();
+  const setPosts = useSetPosts();
   return async () => {
     const formData = new FormData();
     formData.append("authorID", userID);
@@ -17,11 +16,11 @@ const useCreatePost = (post, setPost) => {
       headers: { Authorization: token },
       body: formData,
     });
-    
-    const data = await response.json()
-    setPosts(data.posts)
-    setPost({ title: "", body: "", picture: null });
-  }
-}
 
-export default useCreatePost
+    const data = await response.json();
+    setPosts(data.posts);
+    setPost({ title: "", body: "", picture: null });
+  };
+};
+
+export default useCreatePost;

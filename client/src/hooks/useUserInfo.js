@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useToken, useUser } from "../services/store";
 
 const useUserInfo = (id) => {
-  const userID = id? id: useUser();
+  const userID = id ? id : useUser();
   const token = useToken();
   const [user, setUser] = useState({
     Username: "username",
