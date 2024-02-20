@@ -27,5 +27,7 @@ func main() {
 	r.GET("/posts/:id", middlewares.Auth, controllers.GetPostByID)
 	r.PUT("/posts/:id", middlewares.Auth, controllers.UpdatePost)
 	r.DELETE("/posts/:id", middlewares.Auth, controllers.DeletePost)
+	r.POST("/comments", middlewares.Auth, controllers.CreateComment)
+	r.GET("/comments/:id", middlewares.Auth, controllers.GetComments)
 	r.Run()
 }

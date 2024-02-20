@@ -8,7 +8,7 @@ const Posts = () => {
     const posts = usePosts()
   return (
     <Box width="89%">
-        {posts.map((post) => <Post post={post}/>)}
+        {posts.map((post) => <Post post={post} key={post.ID}/>)}
     </Box>
   )
 }

@@ -160,9 +160,11 @@ func DeletePost(c *gin.Context) {
 		return
 	}
 
-	//Response
-	c.IndentedJSON(
-		http.StatusOK,
-		gin.H{"message": "Post deleted"},
-	)
+		//Response
+		var posts []models.Post
+		db.DB.Find(&posts)
+		c.IndentedJSON(
+			http.StatusOK,
+			gin.H{"posts": posts},
+		)
 }
