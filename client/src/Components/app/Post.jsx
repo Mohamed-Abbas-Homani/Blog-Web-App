@@ -1,7 +1,7 @@
 import React from "react";
 import FlexBetween from "../ui/Fb";
 import UserImage from "../ui/UserImage";
-import { Box, Button, Divider, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import useUserInfo from "../../hooks/useUserInfo";
 import Widget from "../ui/Widget";
 import { Link } from "react-router-dom";

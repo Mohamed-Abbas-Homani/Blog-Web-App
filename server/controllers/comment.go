@@ -71,3 +71,31 @@ func GetComments(c *gin.Context) {
 		gin.H{"comments": comments},
 	)
 }
+
+func DeleteComment (c *gin.Context) {
+	id := c.Param("commentID")
+	postID := c.Param("postID")
+
+	comment := &models.Comment{}
+	if db.DB.Delete(&comment, id).Error != nil {
+		c.IndentedJSON(
+			http.StatusBadRequest,
+			gin.H{"error": "Bad request"},
+		)
+		return
+	}
+
+	var comments []models.Comment
+	if db.DB.Where("post_id = ?", postID).Find(&comments).Error != nil {
+		c.IndentedJSON(
+			http.StatusBadRequest,
+			gin.H{"comments": nil},
+		)
+		return
+	}
+	
+	c.IndentedJSON(
+		http.StatusCreated,
+		gin.H{"comments": comments},
+	)
+}
