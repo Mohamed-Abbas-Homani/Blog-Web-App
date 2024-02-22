@@ -6,6 +6,7 @@ import FlexBetween from "../Components/ui/Fb";
 import CreatePost from "../Components/app/CreatePost";
 import Posts from "../Components/app/Posts";
 import Comments from "../Components/app/Comments";
+import AuthorsWidget from "../Components/app/AuthorsWidget";
 const HomePage = () => {
   return (
     <Box width="100%" height="100%">
@@ -24,6 +25,7 @@ const HomePage = () => {
           <Box display="flex" justifyContent="center" width="20%" height="20%">
             <FlexBetween flexDirection="column" width="100%">
               <UserWidget />
+              <AuthorsWidget />
             </FlexBetween>
           </Box>
           <Box display="flex" justifyContent="center" width="55%" height="100%" alignItems="center">

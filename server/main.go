@@ -14,22 +14,31 @@ func init() {
 
 func main() {
 	r := gin.Default()
+	//middlewares
 	r.Static("/images/profiles", "./images/profiles")
     r.Static("/images/posts", "./images/posts")
 	r.Use(middlewares.CorsMiddleware())
+
+	//Authorization
 	r.POST("/signup", controllers.Signup)
 	r.POST("/login", controllers.Login)
 	
+	//User
+	r.GET("/users", middlewares.Auth, controllers.GetUsers)
 	r.PUT("/users/:id", middlewares.Auth, controllers.UpdateAccount)
 	r.GET("/users/:id", middlewares.Auth, controllers.GetUserByID)
 	r.DELETE("/users/:id", middlewares.Auth, controllers.DeleteUserByID)
+
+	//Post
 	r.POST("/posts", middlewares.Auth, controllers.CreatePost)
 	r.GET("/posts", middlewares.Auth, controllers.GetPosts)
 	r.GET("/posts/:id", middlewares.Auth, controllers.GetPostByID)
-	r.PUT("/posts/:id", middlewares.Auth, controllers.UpdatePost)
 	r.DELETE("/posts/:id", middlewares.Auth, controllers.DeletePost)
+
+	//Comment
 	r.POST("/comments", middlewares.Auth, controllers.CreateComment)
 	r.GET("/comments/:id", middlewares.Auth, controllers.GetComments)
 	r.DELETE("/comments/:postID/:commentID", middlewares.Auth, controllers.DeleteComment)
+	
 	r.Run()
 }

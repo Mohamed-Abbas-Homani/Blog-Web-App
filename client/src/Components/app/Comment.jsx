@@ -10,7 +10,7 @@ import { useUser } from "../../services/store";
 
 const Comment = ({ comment }) => {
   const user = useUserInfo(comment.UserID);
-  const currentUser = useUser()
+  const currentUser = useUser();
   const deleteComment = useDeleteComment(comment.ID, comment.PostID);
   return (
     <Box width="100%" m="1rem 1rem">
@@ -21,9 +21,11 @@ const Comment = ({ comment }) => {
             <Typography variant="h6">{user.Username}</Typography>
           </Box>
         </Link>
-        {currentUser == user.ID && <IconButton onClick={() => deleteComment()}>
-          <DeleteOutlineOutlined />
-        </IconButton>}
+        {currentUser == user.ID && (
+          <IconButton onClick={() => deleteComment()}>
+            <DeleteOutlineOutlined />
+          </IconButton>
+        )}
       </FlexBetween>
       <p>{comment.Content}</p>
       <Divider />

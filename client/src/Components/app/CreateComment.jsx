@@ -7,7 +7,7 @@ const CreateComment = () => {
   const [comment, setComment] = useState("");
   const { palette } = useTheme();
   const createComment = useCreateComment(comment);
-  const currentPost = useCurrentPost()
+  const currentPost = useCurrentPost();
   return (
     <Box width="100%" mt="1rem">
       <InputBase

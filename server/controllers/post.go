@@ -111,39 +111,6 @@ func GetPostByID(c *gin.Context) {
 	)
 }
 
-func UpdatePost(c *gin.Context) {
-	//Getting ID from Params
-	id := c.Param("id")
-	//Getting data from req body
-	var body struct {
-		Title string
-		Body  string
-	}
-	c.Bind(&body)
-	//Getting Post from Db
-	var post models.Post
-	result := db.DB.Find(&post, id)
-	if result.RowsAffected == 0 {
-		//Bad Response
-		c.IndentedJSON(
-			http.StatusNotFound,
-			gin.H{"message": "Post not found"},
-		)
-		return
-	}
-
-	//Update the post
-	db.DB.Model(&post).Updates(models.Post{
-		Title: body.Title,
-		Body:  body.Body,
-	})
-
-	//Response
-	c.IndentedJSON(
-		http.StatusOK,
-		gin.H{"post": post},
-	)
-}
 
 func DeletePost(c *gin.Context) {
 	//Getting ID from Params

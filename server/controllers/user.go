@@ -246,3 +246,19 @@ func DeleteUserByID(c *gin.Context) {
 		gin.H{"user": user},
 	)
 }
+
+func GetUsers(c *gin.Context) {
+	var users []models.User
+
+	if db.DB.Find(&users).Error != nil {
+		c.IndentedJSON(
+			http.StatusNotFound,
+			gin.H{"error": "Users cant be found"},
+		)
+	}
+
+	c.IndentedJSON(
+		http.StatusOK,
+		gin.H{"users": users},
+	)
+}

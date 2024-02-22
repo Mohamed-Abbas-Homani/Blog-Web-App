@@ -16,7 +16,7 @@ import useUpdateAccount from "../../hooks/useUpdateAccount";
 const ProfileWidget = ({ user, myProfile }) => {
   const [update, setUpdate] = useState({ username: "", picture: "" });
   const { palette } = useTheme();
-  const updateAccount = useUpdateAccount(update, setUpdate, user.ID)
+  const updateAccount = useUpdateAccount(update, setUpdate, user.ID);
   return (
     <>
       <FlexBetween
@@ -123,7 +123,11 @@ const ProfileWidget = ({ user, myProfile }) => {
                 </Dropzone>
               </Box>
               {update.username && update.picture && (
-                <Button variant="contained" size="large" onClick={() => updateAccount()}>
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={() => updateAccount()}
+                >
                   Update
                 </Button>
               )}
