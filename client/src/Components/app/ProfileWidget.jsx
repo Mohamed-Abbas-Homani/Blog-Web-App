@@ -12,11 +12,13 @@ import FlexBetween from "../ui/Fb";
 import Dropzone from "react-dropzone";
 import { DeleteOutlined, EditOutlined } from "@mui/icons-material";
 import useUpdateAccount from "../../hooks/useUpdateAccount";
+import useDeleteAccount from "../../hooks/useDeleteAccount";
 
 const ProfileWidget = ({ user, myProfile }) => {
   const [update, setUpdate] = useState({ username: "", picture: "" });
   const { palette } = useTheme();
   const updateAccount = useUpdateAccount(update, setUpdate, user.ID);
+  const deleteAccount = useDeleteAccount()
   return (
     <>
       <FlexBetween
@@ -37,10 +39,11 @@ const ProfileWidget = ({ user, myProfile }) => {
           alignItems="center"
           borderRadius="0.75rem"
           width="50%"
-          gap="2rem"
+          gap="3rem"
         >
           <UserImage image={user.ProfileImageURL} size={300} />
           <Typography variant="h2">{user.Username}</Typography>
+          <Button variant="contained" onClick={() => deleteAccount()}>Delete Account</Button>
         </Box>
         {myProfile && (
           <Box
